@@ -6,22 +6,9 @@
 
 "use server";
 
-import { mockFiles, mockFolders } from "@/components/mock-data";
 import { db } from "./db";
-import { files, folders } from "./schema";
+import { folders } from "./schema";
 import { revalidatePath } from "next/cache";
-
-export default async function Seed() {
-  console.log("Seeding data...");
-
-  const filteredFiles = mockFiles.map(({ id, ...rest }) => rest);
-  const file = await db.insert(files).values(filteredFiles);
-
-  const filteredFolders = mockFolders.map(({ id, ...rest }) => rest);
-  const folder = await db.insert(folders).values(filteredFolders);
-
-  console.log({ file, folder });
-}
 
 export async function createFolder(name: string, parent: number | null) {
   try {
