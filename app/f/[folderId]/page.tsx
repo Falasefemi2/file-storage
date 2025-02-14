@@ -22,7 +22,7 @@ async function getFolderHierarchy(folderId: number) {
 export default async function FolderPage({ params }: { params: { folderId?: string } }) {
     console.log("Received params:", params)
 
-    const { folderId } = params
+    const { folderId } = await params
     console.log("Received folderId:", folderId)
     if (!folderId) {
         console.error("Missing folderId in params")

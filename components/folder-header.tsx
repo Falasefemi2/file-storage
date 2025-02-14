@@ -1,19 +1,33 @@
-import { UploadIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { NewFolderDialog } from "./new-folder-dialog"
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import { NewFolderDialog } from "./new-folder-dialog";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { UploadButton } from "@/utils/uploadthing";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function FolderHeader() {
-    const currentFolder = 0
+    const router = useRouter();
+    const currentFolder = 0;
+
+    const handleUploadComplete = (res: any) => {
+        console.log("Files: ", res);
+        toast.success("Upload Completed");
+        router.push('/');
+    };
+
+    const handleUploadError = (error: Error) => {
+        toast.error(`ERROR! ${error.message}`);
+    };
 
     return (
         <header className="flex items-center justify-between p-4 bg-background border-b">
             <div className="flex items-center space-x-4">
-                <Button variant="outline">
-                    <UploadIcon className="mr-2 h-4 w-4" />
-                    Upload
-                </Button>
+                <UploadButton
+                    endpoint="imageUploader"
+                    onClientUploadComplete={handleUploadComplete}
+                    onUploadError={handleUploadError}
+                />
                 <NewFolderDialog currentFolder={currentFolder} />
                 <SignedOut>
                     <SignInButton />
@@ -31,4 +45,3 @@ export default function FolderHeader() {
         </header>
     )
 }
-

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React from "react"
@@ -6,8 +7,11 @@ import FolderContents from "./folder-contents"
 import type { InferSelectModel } from "drizzle-orm"
 import type { files as allFiles, folders as allFolders } from "../server/schema"
 import { Button } from "@/components/ui/button"
-import { ChevronLeftIcon, UploadIcon } from "lucide-react"
+import { ChevronLeftIcon } from "lucide-react"
 import { NewFolderDialog } from "./new-folder-dialog"
+import { UploadButton } from "@/utils/uploadthing";
+import { toast } from "sonner";
+
 
 type FileType = InferSelectModel<typeof allFiles>
 type FolderType = InferSelectModel<typeof allFolders>
@@ -27,6 +31,16 @@ export function FolderContentsWithBreadcrumbs({
 }: FolderContentWithBreadcrumbsProps) {
 
 
+
+
+    const handleUploadComplete = (res: any) => {
+        console.log("Files: ", res);
+        toast.success("Upload Completed");
+    };
+
+    const handleUploadError = (error: Error) => {
+        toast.error(`ERROR! ${error.message}`);
+    };
     return (
         <div className="min-h-screen p-4">
             <div className="max-w-6xl mx-auto">
@@ -54,9 +68,11 @@ export function FolderContentsWithBreadcrumbs({
                         </div>
                     </div>
                     <div className="flex space-x-2">
-                        <Button>
-                            <UploadIcon className="mr-2 h-4 w-4" /> Upload
-                        </Button>
+                        <UploadButton
+                            endpoint="imageUploader"
+                            onClientUploadComplete={handleUploadComplete}
+                            onUploadError={handleUploadError}
+                        />
                         <NewFolderDialog currentFolder={currentFolder} />
                     </div>
                 </div>
