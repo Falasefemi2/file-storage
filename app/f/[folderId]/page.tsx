@@ -19,7 +19,7 @@ async function getFolderHierarchy(folderId: number) {
     return hierarchy
 }
 
-export default async function FolderPage({ params }: { params: { folderId?: string } }) {
+export default async function FolderPage({ params }: { params: Promise<{ folderId?: string }> }) {
     console.log("Received params:", params)
 
     const { folderId } = await params
@@ -51,4 +51,5 @@ export default async function FolderPage({ params }: { params: { folderId?: stri
         />
     )
 }
+
 
