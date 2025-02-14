@@ -17,6 +17,7 @@ export default function FolderHeader() {
     };
 
     const handleUploadError = (error: Error) => {
+        console.error('Upload error:', error);
         toast.error(`ERROR! ${error.message}`);
     };
 
@@ -27,6 +28,7 @@ export default function FolderHeader() {
                     endpoint="imageUploader"
                     onClientUploadComplete={handleUploadComplete}
                     onUploadError={handleUploadError}
+                    input={{ parentFolderId: currentFolder }}
                 />
                 <NewFolderDialog currentFolder={currentFolder} />
                 <SignedOut>

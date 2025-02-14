@@ -11,6 +11,8 @@ import { ChevronLeftIcon } from "lucide-react"
 import { NewFolderDialog } from "./new-folder-dialog"
 import { UploadButton } from "@/utils/uploadthing";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 
 
 type FileType = InferSelectModel<typeof allFiles>
@@ -30,24 +32,20 @@ export function FolderContentsWithBreadcrumbs({
     breadcrumbs,
 }: FolderContentWithBreadcrumbsProps) {
 
+    const router = useRouter();
 
 
 
     const handleUploadComplete = (res: any) => {
         console.log("Files: ", res);
         toast.success("Upload Completed");
+        router.push('/f/' + currentFolder);
     };
 
     const handleUploadError = (error: Error) => {
         toast.error(`ERROR! ${error.message}`);
     };
 
-    // const handleUploadBegin = (file: File) => {
-    //     const formData = new FormData();
-    //     formData.append("file", file);
-    //     formData.append("parentFolderId", currentFolder.toString());
-    //     return formData;
-    //   };
 
     return (
         <div className="min-h-screen p-4">
@@ -80,7 +78,7 @@ export function FolderContentsWithBreadcrumbs({
                             endpoint="imageUploader"
                             onClientUploadComplete={handleUploadComplete}
                             onUploadError={handleUploadError}
-                        // onUploadBegin={handleUploadBegin}
+                            input={{ parentFolderId: currentFolder }}
                         />
                         <NewFolderDialog currentFolder={currentFolder} />
                     </div>
