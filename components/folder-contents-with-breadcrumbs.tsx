@@ -41,6 +41,14 @@ export function FolderContentsWithBreadcrumbs({
     const handleUploadError = (error: Error) => {
         toast.error(`ERROR! ${error.message}`);
     };
+
+    // const handleUploadBegin = (file: File) => {
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+    //     formData.append("parentFolderId", currentFolder.toString());
+    //     return formData;
+    //   };
+
     return (
         <div className="min-h-screen p-4">
             <div className="max-w-6xl mx-auto">
@@ -72,6 +80,7 @@ export function FolderContentsWithBreadcrumbs({
                             endpoint="imageUploader"
                             onClientUploadComplete={handleUploadComplete}
                             onUploadError={handleUploadError}
+                        // onUploadBegin={handleUploadBegin}
                         />
                         <NewFolderDialog currentFolder={currentFolder} />
                     </div>
