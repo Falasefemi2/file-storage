@@ -15,7 +15,7 @@ export default function FolderHeader() {
     const handleUploadComplete = (res: any) => {
         console.log("Files: ", res)
         toast.success("Upload Completed")
-        router.push("/")
+        router.refresh()
     }
 
     const handleUploadError = (error: Error) => {
