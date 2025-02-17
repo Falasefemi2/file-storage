@@ -20,6 +20,17 @@ const FolderContents: React.FC<FolderContentsProps> = ({ files, folders, current
     folder.parent === currentFolder || (currentFolder === 0 && folder.parent === null)
   );
 
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 bytes';
+
+    const k = 1024;
+    const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
+  };
+
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {filteredFolders.map((folder) => (
@@ -33,7 +44,7 @@ const FolderContents: React.FC<FolderContentsProps> = ({ files, folders, current
           <FileIcon className="h-6 w-6 mr-2 text-blue-400" />
           <div className="flex flex-col overflow-hidden">
             <span className="truncate">{file.name}</span>
-            <span className="text-xs text-gray-400">{file.size ? `${file.size} bytes` : 'Unknown size'}</span>
+            <span className="text-xs text-gray-400">{file.size ? formatFileSize(file.size) : 'Unknown size'}</span>
           </div>
         </a>
       ))}
