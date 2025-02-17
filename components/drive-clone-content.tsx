@@ -2,8 +2,12 @@ import { db } from "@/server/db"
 import { folders as mockFolders, files as mockFiles } from "@/server/schema"
 import FolderContents from "./folder-contents"
 import FolderHeader from "./folder-header"
+import { unstable_noStore as noStore } from 'next/cache';
+
+
 
 export default async function DriveCloneContent() {
+    noStore();
     const files = await db.select().from(mockFiles)
     const folders = await db.select().from(mockFolders)
     return (
