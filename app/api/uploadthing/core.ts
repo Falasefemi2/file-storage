@@ -35,7 +35,7 @@ export const ourFileRouter = {
     .input(z.object({ parentFolderId: z.number().default(0) }))
     .middleware(async ({ input }) => {
       const user = await auth();
-      if (!user) throw new UploadThingError("Unauthorized");
+      if (!user.userId) throw new UploadThingError("Unauthorized");
 
       return { userId: user.userId, parentFolderId: input.parentFolderId };
     })
